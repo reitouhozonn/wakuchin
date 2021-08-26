@@ -55,14 +55,19 @@ class waku extends Command
         // $crawler = $client->request('GET', 'https://yokohama.v-yoyaku.jp/reservation/calendar');
 
         $crawler = $client->request('GET', 'https://yokohama.v-yoyaku.jp/login');
+        // $crawler = $client->request('GET', 'https://yokohama.v-yoyaku.jp/thank_you_for_your_patience/141003-yokohama.html?url=yokohama.v-yoyaku.jp/141003-yokohama&token=dabf376fb9-3495f37695-29aef8f-437&mode=ins&s=0&e=100');
         sleep(5);
         $crawler->filter('*')->each(function ($node) {
             dump($node->text());
         });
+
         $gsp = $client->getServerParameter('HTTP_USER_AGENT');
         dump($gsp);
-        $getCrawler = $client->getCrawler();
-        dump($getCrawler);
+
+        // $getCrawler = $client->getCrawler();
+        // dump($getCrawler);
+
+        dump($cookies);
         // $resBody = $client->getScript();
         // dump($resBody);
 
