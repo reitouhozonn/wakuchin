@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Goutte\Client;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Storage;
 
 class waku extends Command
@@ -43,6 +44,8 @@ class waku extends Command
 
         // クッキーをファイル保存しておく
         $cookies = $client->getCookieJar()->all();
+
+        Storage::put('cookie_file', $cookies);
         // file_put_contents(self::COOKIE_FILE, serialize($cookies));
         // $client->updateFromSetCookie($cookies);
         // // ファイル保存してたクッキーをセットする
@@ -56,7 +59,7 @@ class waku extends Command
 
         $crawler = $client->request('GET', 'https://yokohama.v-yoyaku.jp/login');
         // $crawler = $client->request('GET', 'https://yokohama.v-yoyaku.jp/thank_you_for_your_patience/141003-yokohama.html?url=yokohama.v-yoyaku.jp/141003-yokohama&token=dabf376fb9-3495f37695-29aef8f-437&mode=ins&s=0&e=100');
-        sleep(5);
+        sleep(1);
         $crawler->filter('*')->each(function ($node) {
             dump($node->text());
         });
@@ -67,7 +70,18 @@ class waku extends Command
         // $getCrawler = $client->getCrawler();
         // dump($getCrawler);
 
-        dump($cookies);
+        dump($cookies); {
+            $pBar = $this->output->createProgressBar(5);
+            $i = 0;
+            $pBar->start();
+            while ($i++ < 5) {
+                sleep(1);
+                $pBar->advance();
+            }
+            $pBar->finish();
+        }
+        echo PHP_EOL;
+
         // $resBody = $client->getScript();
         // dump($resBody);
 
